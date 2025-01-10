@@ -117,10 +117,15 @@ s {
   h3 {
     font-size: 1.5em;
   }
-  b {
+  b,
+  summary {
     font-size: 14px;
   }
-  p {
+  p,
+  li,
+  input,
+  a,
+  span {
     font-size: 12px;
   }
 }

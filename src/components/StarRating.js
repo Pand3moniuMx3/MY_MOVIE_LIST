@@ -41,7 +41,7 @@ export default function StarRating({
 
   const textStyle = {
     lineHeight: "1px",
-    fontSize: "18px",
+    fontSize: "16px",
     color: textColor,
   };
 
