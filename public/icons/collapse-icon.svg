@@ -1,0 +1,10 @@
+<svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="ChevronUp" clip-path="url(#clip0_319_2)">
+<path id="ChevronUp_2" d="M9.5 5.5L5 1L0.5 5.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_319_2">
+<rect width="10" height="5.5" fill="white" transform="matrix(-1 0 0 -1 10 6)"/>
+</clipPath>
+</defs>
+</svg>

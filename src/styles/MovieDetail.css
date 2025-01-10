@@ -1,0 +1,113 @@
+/* OVERVIEW */
+
+.overview {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: start;
+}
+
+.overview .heading {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--inner-gap);
+}
+.overview .heading svg {
+  cursor: pointer;
+}
+
+.overview .poster {
+  width: 100%;
+}
+
+.overview .info-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--global-gap);
+  padding: var(--global-padding);
+  border-bottom: 1px solid var(--clr-light-grey);
+}
+.overview .info-wrapper h3 {
+  text-align: start;
+}
+
+.overview .info-wrapper .rating-wrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.overview .filler {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--global-padding);
+  border-right: 1px solid var(--clr-light-grey);
+  border-bottom: 1px solid var(--clr-light-grey);
+}
+.overview .filler p {
+  color: var(--clr-light-grey);
+}
+
+/* MORE DETAILS */
+
+.more-details {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-direction: column;
+  gap: var(--global-gap);
+  padding: var(--global-padding);
+}
+
+.more-details .rating {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  gap: var(--inner-gap);
+  padding: var(--global-padding);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--clr-light-grey);
+}
+
+.more-details .detail {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 600px) {
+  .overview {
+    grid-template-columns: 160px 1fr;
+  }
+  .overview .info-wrapper,
+  .more-details {
+    gap: var(--inner-gap);
+  }
+  .overview .info-wrapper .cast {
+    display: none;
+  }
+  .more-details .rating {
+    padding: 1rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .overview {
+    grid-template-columns: 1fr;
+  }
+  .overview .info-wrapper {
+    border-bottom: 1px solid var(--clr-light-grey);
+  }
+  .overview .info-wrapper .cast {
+    display: block;
+  }
+}

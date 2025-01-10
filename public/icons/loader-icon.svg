@@ -1,0 +1,10 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Simple Loader" clip-path="url(#clip0_334_2)">
+<path id="LoaderCircle" d="M2 20C2 29.9411 10.0589 38 20 38C29.9411 38 38 29.9411 38 20C38 10.0589 29.9411 2 20 2" stroke="#4A4A4A" stroke-width="4"/>
+</g>
+<defs>
+<clipPath id="clip0_334_2">
+<rect width="40" height="40" fill="white"/>
+</clipPath>
+</defs>
+</svg>

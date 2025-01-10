@@ -1,0 +1,11 @@
+<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Search" clip-path="url(#clip0_316_2)">
+<circle id="SearchGlass" cx="4" cy="4" r="3.5" stroke="white"/>
+<path id="SearchHandle" d="M9.14645 9.85355C9.34171 10.0488 9.65829 10.0488 9.85355 9.85355C10.0488 9.65829 10.0488 9.34171 9.85355 9.14645L9.14645 9.85355ZM9.85355 9.14645L6.85355 6.14645L6.14645 6.85355L9.14645 9.85355L9.85355 9.14645Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_316_2">
+<rect width="10" height="10" fill="white"/>
+</clipPath>
+</defs>
+</svg>

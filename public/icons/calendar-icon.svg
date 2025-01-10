@@ -1,0 +1,10 @@
+<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Calendar Icon" clip-path="url(#clip0_331_2)">
+<path id="Calendar" d="M0.5 4.5V9.5H9.5V4.5M0.5 4.5V2H2M0.5 4.5H9.5M9.5 4.5V2H8M2 2V0.5M2 2H8M8 2V0.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_331_2">
+<rect width="10" height="10" fill="white"/>
+</clipPath>
+</defs>
+</svg>

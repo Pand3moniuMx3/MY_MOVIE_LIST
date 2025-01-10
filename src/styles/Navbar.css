@@ -1,0 +1,55 @@
+.navbar {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr minmax(0px, 500px) 1fr;
+  align-items: center;
+  gap: var(--inner-gap);
+  padding: var(--inner-padding);
+  background: var(--clr-theme);
+  border-radius: var(--border-radius);
+}
+
+.navbar form {
+  max-width: 500px;
+  min-width: 0;
+  height: 100%;
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  gap: 15px;
+  align-items: center;
+  padding: 5px 15px;
+  background: var(--clr-light);
+  border-radius: var(--border-radius);
+}
+.navbar form img {
+  cursor: pointer;
+}
+
+.navbar form input {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  min-width: 100%;
+  max-width: none;
+  min-width: 0;
+  background: transparent;
+  color: var(--clr-white);
+}
+.navbar form input::placeholder {
+  color: var(--clr-white) !important;
+}
+.navbar form input:focus {
+  outline: none;
+}
+
+.navbar button:nth-of-type(1) img {
+  width: 16px;
+}
+
+@media screen and (max-width: 400px) {
+  .navbar form {
+    padding: 5px 10px;
+    gap: 10px;
+  }
+}

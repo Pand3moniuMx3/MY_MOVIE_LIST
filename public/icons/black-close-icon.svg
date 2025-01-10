@@ -1,0 +1,13 @@
+<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="X" clip-path="url(#clip0_119_2)">
+<g id="Xicon">
+<path id="Xone" d="M10 0L0 10" stroke="black"/>
+<path id="Xtwo" d="M0 0L10 10" stroke="black"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_119_2">
+<rect width="10" height="10" fill="white"/>
+</clipPath>
+</defs>
+</svg>

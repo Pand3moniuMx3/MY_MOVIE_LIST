@@ -1,0 +1,10 @@
+.data-item {
+  display: flex;
+  gap: 6px;
+  justify-content: start;
+  align-items: center;
+  user-select: none;
+}
+.data-item img {
+  max-width: 10px;
+}

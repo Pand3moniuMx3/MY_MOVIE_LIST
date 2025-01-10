@@ -1,0 +1,78 @@
+.settings {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.settings aside,
+.settings main {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: var(--global-gap);
+  padding: var(--global-padding);
+}
+.settings aside {
+  border-right: 1px solid var(--clr-light-grey);
+  grid-column: span 1 / span 1;
+}
+.settings main {
+  grid-column: span 2 / span 2;
+}
+
+/* TAB */
+
+.settings .tab {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.settings .tab > * {
+  transition: var(--transition);
+  cursor: pointer;
+}
+.settings .tab b:hover {
+  color: var(--clr-white) !important;
+}
+
+/* TAB CONTENT */
+
+.settings .tab-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--inner-gap);
+  list-style: none;
+}
+.settings .tab-content li {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.settings .tab-content li p {
+  cursor: pointer;
+  transition: var(--transition);
+}
+.settings .tab-content li p:hover {
+  opacity: 0.6;
+}
+
+/* MEDIA QUERIY */
+
+@media screen and (max-width: 525px) {
+  .settings {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+  }
+  .settings aside,
+  .settings main {
+    grid-column: span 1 / span 1;
+    padding: var(--inner-gap);
+  }
+  .settings .tab img {
+    display: none;
+  }
+}

@@ -1,0 +1,11 @@
+<svg width="20" height="30" viewBox="0 0 20 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Logo_MyMovieList" clip-path="url(#clip0_323_2)">
+<path id="Bookmark" d="M0.5 29.5V0.5H19.5V29.5L10 22L0.5 29.5Z" stroke="black" stroke-linejoin="round"/>
+<path id="Play" d="M5.5 16V6L15 11L5.5 16Z" stroke="black" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_323_2">
+<rect width="20" height="30" fill="white"/>
+</clipPath>
+</defs>
+</svg>
