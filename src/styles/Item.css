@@ -5,8 +5,10 @@
   gap: var(--inner-gap);
   align-items: center;
   padding: var(--global-padding);
-  border-bottom: 1px solid var(--clr-light-grey);
   position: relative;
+}
+.item:not(:last-of-type) {
+  border-bottom: 1px solid var(--clr-light-grey);
 }
 
 .item .poster {
@@ -87,5 +89,10 @@ input[type="checkbox"]:checked {
   }
   .item {
     padding: var(--inner-gap);
+  }
+  .item .info b {
+    padding-right: 25px;
+    white-space: wrap;
+    width: auto;
   }
 }

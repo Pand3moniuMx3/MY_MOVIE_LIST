@@ -17,12 +17,19 @@
 /* FILTERS */
 
 .finder aside {
+  position: relative;
   grid-column: span 1 / span 1;
   display: flex;
   flex-direction: column;
   padding: var(--global-padding);
   gap: var(--global-gap);
   border-right: 1px solid var(--clr-light-grey);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  z-index: 1;
+}
+.finder aside::-webkit-scrollbar {
+  display: none;
 }
 .finder aside .filter {
   width: 100%;
@@ -79,7 +86,7 @@
 
 .finder aside .search-btn {
   width: 100%;
-  height: var(--option-height);
+  min-height: var(--option-height);
   border: none;
   border-radius: var(--option-border-radius);
   background: var(--clr-white);
@@ -112,4 +119,52 @@
 }
 .finder .message h3 {
   color: var(--clr-light-grey);
+}
+
+/* FILTERS BUTTON MOBILE */
+
+.finder .filters-btn-container {
+  display: none;
+  width: 100%;
+  padding: var(--inner-gap);
+  border-bottom: 1px solid var(--clr-light-grey);
+}
+.finder .filters-btn {
+  width: 100%;
+  height: var(--option-height);
+  background: transparent;
+  border: 1px solid var(--clr-light-grey);
+  border-radius: var(--option-border-radius);
+  padding: var(--option-padding);
+}
+
+.finder aside .mobile-title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.finder aside .mobile-title img {
+  width: 10px;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 600px) {
+  .finder {
+    display: flex;
+    flex-direction: column;
+  }
+  .finder aside {
+    position: absolute;
+    inset: 0 0 0 0;
+    width: 100%;
+    background: var(--clr-dark-grey);
+    border-right: none;
+  }
+  .finder .filters-btn-container {
+    display: flex;
+  }
+  .finder aside .filter .options .option:hover {
+    border: 1px solid var(--clr-light-grey);
+  }
 }

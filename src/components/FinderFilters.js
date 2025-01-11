@@ -99,64 +99,95 @@ export default function FinderFilters({
   // current year
   const currentYear = new Date(Date.now()).getFullYear();
 
+  // opening filters on mobile
+  const [isFiltersOpen, setIsFiltersOpen] = useState(true);
+
   return (
-    <aside>
-      <div className="filter">
-        <b>Genre:</b>
-        <div className="options">
-          {genresArray.map((genre) => (
-            <span
-              className="option"
-              onClick={() => setGenreFilter(genre.id)}
-              style={{
-                border: genreFilter === genre.id && "1px solid var(--clr-theme",
-              }}
-            >
-              {genre.name}
-            </span>
-          ))}
-        </div>
-        <p onClick={() => setGenresExp((s) => !s)}>Load more</p>
+    <>
+      <div className="filters-btn-container">
+        <button
+          className="filters-btn"
+          onClick={() => setIsFiltersOpen((s) => !s)}
+        >
+          Filters
+        </button>
       </div>
-      <div className="filter">
-        <b>Popular vote: {popularityFilter}</b>
-        <input
-          type="range"
-          min="0"
-          max="10"
-          value={popularityFilter}
-          onChange={(e) => setPopularityFilter(Number(e.target.value))}
-        />
-      </div>
-      <div className="filter">
-        <b>Year range:</b>
-        <div className="options">
-          <input
-            type="text"
-            className="from"
-            value={fromYearFilter}
-            onChange={(e) => setFromYearFilter(Number(e.target.value))}
-            style={{ border: fromYearFilter > currentYear && "1px solid red" }}
-          />
-          <input
-            type="text"
-            className="to"
-            value={toYearFilter}
-            onChange={(e) => setToYearFilter(Number(e.target.value))}
-            style={{ border: toYearFilter < fromYearFilter && "1px solid red" }}
-          />
-        </div>
-      </div>
-      <button
-        className="search-btn"
-        style={{
-          background: toYearFilter < fromYearFilter && "var(--clr-light-grey)",
-          pointerEvents: toYearFilter < fromYearFilter && "none",
-        }}
-        onClick={handleFindMovies}
-      >
-        Search
-      </button>
-    </aside>
+      {isFiltersOpen && (
+        <aside>
+          {isFiltersOpen && (
+            <div className="mobile-title">
+              <b>Find a movie</b>
+              <img
+                src="/icons/close-icon.svg"
+                alt="close filters"
+                onClick={() => setIsFiltersOpen(false)}
+              />
+            </div>
+          )}
+          <div className="filter">
+            <b>Genre:</b>
+            <div className="options">
+              {genresArray.map((genre) => (
+                <span
+                  className="option"
+                  onClick={() => setGenreFilter(genre.id)}
+                  style={{
+                    border:
+                      genreFilter === genre.id && "1px solid var(--clr-theme",
+                  }}
+                >
+                  {genre.name}
+                </span>
+              ))}
+            </div>
+            <p onClick={() => setGenresExp((s) => !s)}>Load more</p>
+          </div>
+          <div className="filter">
+            <b>Popular vote: {popularityFilter}</b>
+            <input
+              type="range"
+              min="0"
+              max="10"
+              value={popularityFilter}
+              onChange={(e) => setPopularityFilter(Number(e.target.value))}
+            />
+          </div>
+          <div className="filter">
+            <b>Year range:</b>
+            <div className="options">
+              <input
+                type="text"
+                className="from"
+                value={fromYearFilter}
+                onChange={(e) => setFromYearFilter(Number(e.target.value))}
+                style={{
+                  border: fromYearFilter > currentYear && "1px solid red",
+                }}
+              />
+              <input
+                type="text"
+                className="to"
+                value={toYearFilter}
+                onChange={(e) => setToYearFilter(Number(e.target.value))}
+                style={{
+                  border: toYearFilter < fromYearFilter && "1px solid red",
+                }}
+              />
+            </div>
+          </div>
+          <button
+            className="search-btn"
+            style={{
+              background:
+                toYearFilter < fromYearFilter && "var(--clr-light-grey)",
+              pointerEvents: toYearFilter < fromYearFilter && "none",
+            }}
+            onClick={handleFindMovies}
+          >
+            Search
+          </button>
+        </aside>
+      )}
+    </>
   );
 }
