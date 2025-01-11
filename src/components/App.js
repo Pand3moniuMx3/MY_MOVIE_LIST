@@ -198,7 +198,10 @@ export default function App() {
             !isSettings &&
             !isFinder && (
               <>
-                <Summary title={`Found ${movies.length || "0"} top results`} />
+                <Summary
+                  title={`Found ${movies.length || "0"} top results`}
+                  onClick={() => setQuery("")}
+                />
                 <MoviesList
                   array={movies}
                   onSelectMovie={handleSelectMovie}
