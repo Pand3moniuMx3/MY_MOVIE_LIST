@@ -1,18 +1,18 @@
 import React from "react";
 import DataItem from "./DataItem";
 import Item from "./Item";
-import "../styles/List.css";
+import "../styles/Finder.css";
 
-export default function MoviesList({ array, onSelectMovie, setIsOpenList }) {
+export default function FinderList({ array, onSelectMovie, setIsFinder }) {
   if (array.length === 0)
     return (
-      <ul className="list">
-        <p>No movies</p>
-      </ul>
+      <div className="message">
+        <h3>No movies</h3>
+      </div>
     );
 
   return (
-    <ul className="list">
+    <main className="finder-list">
       {array.map((movie, index) => (
         <Item
           id={movie.id}
@@ -20,7 +20,7 @@ export default function MoviesList({ array, onSelectMovie, setIsOpenList }) {
           poster={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           key={index}
           onSelectMovie={onSelectMovie}
-          onClick={() => setIsOpenList(false)}
+          onClick={() => setIsFinder(false)}
         >
           <DataItem
             icon="/icons/calendar-icon.svg"
@@ -28,6 +28,6 @@ export default function MoviesList({ array, onSelectMovie, setIsOpenList }) {
           />
         </Item>
       ))}
-    </ul>
+    </main>
   );
 }

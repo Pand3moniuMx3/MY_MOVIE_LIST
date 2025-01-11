@@ -65,7 +65,8 @@ p,
 li,
 input,
 a,
-span {
+span,
+button {
   line-height: 1.2;
   font-family: "Inter-Regular";
   font-size: 16px;
@@ -118,12 +119,12 @@ s {
     font-size: 1.5em;
   }
   b,
-  summary {
+  summary,
+  input {
     font-size: 14px;
   }
   p,
   li,
-  input,
   a,
   span {
     font-size: 12px;

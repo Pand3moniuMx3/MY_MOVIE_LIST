@@ -1,30 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Navbar.css";
 
 export default function Navbar({
   query,
   setQuery,
-  isOpenList,
   onOpenList,
-  isSettings,
   onOpenSettings,
+  onOpenFinder,
 }) {
+  const [isMenu, setIsMenu] = useState(false);
+
   return (
     <nav className="navbar">
-      <button
-        style={{ justifySelf: "start" }}
-        className="btn square"
-        onClick={() => onOpenSettings((state) => !state)}
-      >
-        <img
-          src={
-            isSettings
-              ? "/icons/black-close-icon.svg"
-              : "icons/settings-icon.png"
-          }
-          alt="open bookmarks"
-        />
-      </button>
+      <div className="filler" />
       <form>
         <img
           src="icons/search-icon.svg"
@@ -46,24 +34,49 @@ export default function Navbar({
           />
         )}
       </form>
-      <button
-        className="btn square"
-        style={{
-          justifySelf: "end",
-          pointerEvents: isSettings ? "none" : "auto",
-          background: isSettings ? "var(--clr-light)" : "var(--clr-white)",
-        }}
-        onClick={() => onOpenList((state) => !state)}
-      >
+      <button className="btn square" onClick={() => setIsMenu((s) => !s)}>
         <img
-          src={
-            isOpenList
-              ? "/icons/black-close-icon.svg"
-              : "icons/bookmark-icon.svg"
-          }
-          alt="open bookmarks"
+          src={isMenu ? "icons/black-close-icon.svg" : "/icons/burger-icon.svg"}
+          alt="open menu"
         />
       </button>
+      {isMenu && (
+        <menu className="menu-tab">
+          <p
+            className="menu-item"
+            onClick={() => {
+              onOpenList(true);
+              onOpenFinder(false);
+              onOpenSettings(false);
+              setIsMenu(false);
+            }}
+          >
+            My list
+          </p>
+          <p
+            className="menu-item"
+            onClick={() => {
+              onOpenFinder(true);
+              onOpenList(false);
+              onOpenSettings(false);
+              setIsMenu(false);
+            }}
+          >
+            Find a movie
+          </p>
+          <p
+            className="menu-item"
+            onClick={() => {
+              onOpenSettings(true);
+              onOpenList(false);
+              onOpenFinder(false);
+              setIsMenu(false);
+            }}
+          >
+            Settings
+          </p>
+        </menu>
+      )}
     </nav>
   );
 }

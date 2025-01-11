@@ -1,0 +1,115 @@
+:root {
+  --option-border-radius: 6px;
+  --option-height: 35px;
+  --option-padding: 5px 12px;
+}
+
+/* FINDER */
+
+.finder {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+
+/* FILTERS */
+
+.finder aside {
+  grid-column: span 1 / span 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--global-padding);
+  gap: var(--global-gap);
+  border-right: 1px solid var(--clr-light-grey);
+}
+.finder aside .filter {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--inner-gap);
+}
+.finder aside .filter .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.finder aside .filter .options .option {
+  height: min(var(--option-height), min-content);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: var(--option-padding);
+  border: 1px solid var(--clr-light-grey);
+  border-radius: var(--option-border-radius);
+  flex-grow: 1;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.finder aside .filter .options .option:hover {
+  border: 1px solid var(--clr-theme);
+}
+.finder aside .filter p {
+  width: 100%;
+  text-align: end;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+
+.finder aside .filter .options input {
+  width: calc(50% - 2.5px);
+  height: var(--option-height);
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--clr-light-grey);
+  border-radius: var(--option-border-radius);
+  background: transparent;
+  padding: var(--option-padding);
+  transition: var(--transition);
+}
+.finder aside .filter .options input:hover,
+.finder aside .filter .options input:focus {
+  border: 1px solid var(--clr-theme);
+  outline: none;
+}
+
+/* BUTTON */
+
+.finder aside .search-btn {
+  width: 100%;
+  height: var(--option-height);
+  border: none;
+  border-radius: var(--option-border-radius);
+  background: var(--clr-white);
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--clr-black);
+}
+.finder aside .search-btn:hover {
+  background: var(--clr-theme);
+}
+
+/* FINDER LIST */
+
+.finder .finder-list {
+  grid-column: span 2 / span 2;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.finder .finder-list::-webkit-scrollbar {
+  display: none;
+}
+
+.finder .message {
+  grid-column: span 2 / span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.finder .message h3 {
+  color: var(--clr-light-grey);
+}

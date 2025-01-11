@@ -20,7 +20,7 @@ export default function MovieDetail({
   const [userRating, setUserRating] = useState("");
 
   // derived state
-  const isAdded = added.some((movie) => movie.imdbID === selectedId);
+  const isAdded = added.some((movie) => movie.id === selectedId);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -29,10 +29,11 @@ export default function MovieDetail({
       try {
         setIsLoading(true);
         const res = await fetch(
-          `//www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+          `https://api.themoviedb.org/3/movie/${selectedId}?api_key=${KEY}`
         );
         const data = await res.json();
         setMovieDetails(data);
+        console.log(data);
       } finally {
         setIsLoading(false);
       }
@@ -45,19 +46,19 @@ export default function MovieDetail({
     if (!movieDetails) return;
 
     const newMovie = {
-      imdbID: movieDetails.imdbID,
-      Title: movieDetails.Title,
-      year: movieDetails.Year,
-      Poster: movieDetails.Poster,
-      imdbRating: Number(movieDetails.imdbRating),
-      runtime: Number(movieDetails.Runtime.split(" ").at(0)),
+      id: movieDetails.id,
+      title: movieDetails.title,
+      year: movieDetails.release_date.split("-").at(0),
+      poster_path: `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`,
+      vote_average: movieDetails.vote_average,
+      runtime: movieDetails.runtime,
       userRating,
       watched: false,
     };
 
     if (isAdded) {
       onAddMovie((prev) =>
-        prev.filter((movie) => movie.imdbID !== movieDetails.imdbID)
+        prev.filter((movie) => movie.id !== movieDetails.id)
       );
     } else {
       onAddMovie((prev) => [...prev, newMovie]);
@@ -68,7 +69,7 @@ export default function MovieDetail({
   useEffect(
     function () {
       document.title = movieDetails
-        ? `Movie | ${movieDetails.Title}`
+        ? `Movie | ${movieDetails.title}`
         : "Loading movie...";
 
       return function () {
@@ -111,11 +112,11 @@ export default function MovieDetail({
 function Overview({ movieDetails, onBookmark, isAdded }) {
   return (
     <div className="overview">
-      {movieDetails.Poster !== "N/A" ? (
+      {movieDetails.poster_path !== "N/A" ? (
         <img
           className="poster"
-          src={movieDetails.Poster}
-          alt={movieDetails.Title}
+          src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
+          alt={movieDetails.title}
         />
       ) : (
         <div className="filler">
@@ -124,7 +125,7 @@ function Overview({ movieDetails, onBookmark, isAdded }) {
       )}
       <div className="info-wrapper">
         <div className="heading">
-          <h3>{movieDetails.Title}</h3>
+          <h3>{movieDetails.title}</h3>
           <svg
             width="18"
             height="22"
@@ -150,13 +151,16 @@ function Overview({ movieDetails, onBookmark, isAdded }) {
             </defs>
           </svg>
         </div>
-        <p>{movieDetails.Released}</p>
-        <p>{movieDetails.Genre}</p>
+        <p>{movieDetails.release_date}</p>
+        <div style={{ display: "flex", gap: "var(--inner-gap)" }}>
+          {movieDetails.genres.map((genre) => (
+            <p key={genre.id}>{genre.name}</p>
+          ))}
+        </div>
         <div className="rating-wrapper">
           <img src="/icons/star-icon.svg" alt="imdb rating" />
-          <p>{movieDetails.imdbRating} IMDb rating</p>
+          <p>{movieDetails.vote_average} IMDb rating</p>
         </div>
-        <p className="cast">Starring: {movieDetails.Actors}</p>
       </div>
     </div>
   );
@@ -182,15 +186,15 @@ function MoreDetails({
       </div>
       <div className="detail">
         <b>Plot:</b>
-        <p>"{movieDetails.Plot}"</p>
+        <p>"{movieDetails.overview}"</p>
       </div>
       <div className="detail">
-        <b>Awards:</b>
-        <p>{movieDetails.Awards}</p>
+        <b>Revenue:</b>
+        <p>${movieDetails.revenue}</p>
       </div>
       <div className="detail">
-        <b>Director:</b>
-        <p>Directed by {movieDetails.Director}</p>
+        <b>Tagline:</b>
+        <p>{movieDetails.tagline}</p>
       </div>
     </div>
   );

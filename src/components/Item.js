@@ -2,24 +2,27 @@ import React from "react";
 import "../styles/Item.css";
 
 export default function Item({
-  movie,
+  id,
+  title,
+  poster,
   children,
   onSelectMovie,
-  setIsOpenList,
+  onClick,
   customClass,
 }) {
+  const handleClick = () => {
+    onSelectMovie(id);
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return (
     <li className={`item ${customClass}`}>
-      <img src={movie.Poster} alt={movie.Title} className="poster" />
+      <img src={poster} alt={title} className="poster" />
       <div className="info">
-        <b
-          className="title"
-          onClick={() => {
-            setIsOpenList(false);
-            onSelectMovie(movie.imdbID);
-          }}
-        >
-          {movie.Title}
+        <b className="title" onClick={handleClick}>
+          {title}
         </b>
         <div className="bottom-info">{children}</div>
       </div>

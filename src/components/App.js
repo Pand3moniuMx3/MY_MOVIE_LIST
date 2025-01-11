@@ -10,13 +10,16 @@ import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import MovieDetail from "./MovieDetail";
 import Settings from "./Settings";
+import Finder from "./Finder";
+import FinderFilters from "./FinderFilters";
+import FinderList from "./FinderList";
 
 // calculating the average
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 // environment
-const KEY = "88830a57";
+const KEY = "944b3689ef2257366fec981f89fefb43";
 
 export default function App() {
   // state
@@ -27,6 +30,7 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
   const [isOpenList, setIsOpenList] = useState(false);
   const [isSettings, setIsSettings] = useState(false);
+  const [isFinder, setIsFinder] = useState(false);
   const [added, setAdded] = useState(() => {
     const savedAdded = localStorage.getItem("added");
     return savedAdded ? JSON.parse(savedAdded) : [];
@@ -37,13 +41,17 @@ export default function App() {
     localStorage.setItem("added", JSON.stringify(added));
   }, [added]);
 
+  // useEffect(() => {
+  //   localStorage.clear(); // Removes all keys from localStorage
+  // }, []);
+
   // sorting logic
   const [sortBy, setSortBy] = useState("Default");
   let sortedAdded;
   if (sortBy === "Default") {
     sortedAdded = [...added];
   } else if (sortBy === "Alpabet") {
-    sortedAdded = [...added].sort((a, b) => a.Title.localeCompare(b.Title));
+    sortedAdded = [...added].sort((a, b) => a.title.localeCompare(b.title));
   } else if (sortBy === "Latest") {
     sortedAdded = [...added].reverse();
   } else if (sortBy === "Completion") {
@@ -68,10 +76,10 @@ export default function App() {
   }
 
   // toggle watched movies
-  function handleToggleWatched(imdbID) {
+  function handleToggleWatched(id) {
     setAdded((prev) =>
       prev.map((movie) =>
-        movie.imdbID === imdbID ? { ...movie, watched: !movie.watched } : movie
+        movie.id === id ? { ...movie, watched: !movie.watched } : movie
       )
     );
   }
@@ -87,7 +95,7 @@ export default function App() {
           setIsError("");
 
           const res = await fetch(
-            `//www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            `https://api.themoviedb.org/3/search/movie?api_key=${KEY}&query=${query}`,
             { signal: controller.signal }
           );
 
@@ -96,8 +104,9 @@ export default function App() {
           const data = await res.json();
           if (data.Response === "False") throw new Error("No movies found");
 
-          setMovies(data.Search);
+          setMovies(data.results);
           setIsError("");
+          console.log(data.results);
         } catch (err) {
           if (err.name !== "AbortError") {
             setIsError(err.message);
@@ -123,39 +132,60 @@ export default function App() {
   );
 
   // derived state
-  const avgImdbRating = average(added.map((movie) => movie.imdbRating)).toFixed(
-    1
-  );
+  const avgImdbRating = average(
+    added.map((movie) => movie.vote_average)
+  ).toFixed(1);
   const avgUserRating = average(added.map((movie) => movie.userRating)).toFixed(
     1
   );
   const totalRuntime = added.reduce((acc, movie) => acc + movie.runtime, 0);
 
-  console.log(added);
+  // finder filters state
+  const [genreFilter, setGenreFilter] = useState(28);
+  const [popularityFilter, setPopularityFilter] = useState(5);
+  const [fromYearFilter, setFromYearFilter] = useState(2000);
+  const [toYearFilter, setToYearFilter] = useState(2025);
+  const [finderMovies, setFinderMovies] = useState([]);
+
+  // fetching movies for finder
+  async function handleFindMovies() {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${KEY}&with_genres=${genreFilter}&primary_release_date.gte=${fromYearFilter}-01-01&primary_release_date.lte=${toYearFilter}-01-01&vote_average.gte=${popularityFilter}&vote_average.lte=${
+        popularityFilter + 2
+      }&vote_count.gte=10`
+    );
+    const data = await res.json();
+    setFinderMovies(data.results || []);
+    console.log(data.result);
+  }
 
   return (
     <section>
       <Navbar
         query={query}
         setQuery={setQuery}
-        isOpenList={isOpenList}
         onOpenList={setIsOpenList}
-        isSettings={isSettings}
         onOpenSettings={setIsSettings}
+        onOpenFinder={setIsFinder}
       />
       <main>
         <Box>
-          {isLoading && !isOpenList && !selectedId && !isSettings && (
-            <>
-              <Summary title={`Found ${movies.length || "0"} top results`} />
-              <Loader />
-            </>
-          )}
+          {isLoading &&
+            !isOpenList &&
+            !selectedId &&
+            !isSettings &&
+            !isFinder && (
+              <>
+                <Summary title={`Found ${movies.length || "0"} top results`} />
+                <Loader />
+              </>
+            )}
           {!isLoading &&
             isError &&
             !isOpenList &&
             !selectedId &&
-            !isSettings && (
+            !isSettings &&
+            !isFinder && (
               <>
                 <Summary title={`Found ${movies.length || "0"} top results`} />
                 <ErrorMessage message={isError} />
@@ -165,7 +195,8 @@ export default function App() {
             !isError &&
             !isOpenList &&
             !selectedId &&
-            !isSettings && (
+            !isSettings &&
+            !isFinder && (
               <>
                 <Summary title={`Found ${movies.length || "0"} top results`} />
                 <MoviesList
@@ -175,7 +206,7 @@ export default function App() {
                 />
               </>
             )}
-          {selectedId && !isOpenList && !isSettings && (
+          {selectedId && !isOpenList && !isSettings && !isFinder && (
             <MovieDetail
               KEY={KEY}
               selectedId={selectedId}
@@ -187,9 +218,38 @@ export default function App() {
               maxRating={maxRating}
             />
           )}
-          {isOpenList && !isSettings && (
+          {isFinder && (
             <>
-              <Summary title="Movies you watched:">
+              <Summary
+                title="Find a movie"
+                onClick={() => setIsFinder(false)}
+              />
+              <Finder>
+                <FinderFilters
+                  genreFilter={genreFilter}
+                  popularityFilter={popularityFilter}
+                  fromYearFilter={fromYearFilter}
+                  toYearFilter={toYearFilter}
+                  setGenreFilter={setGenreFilter}
+                  setPopularityFilter={setPopularityFilter}
+                  setFromYearFilter={setFromYearFilter}
+                  setToYearFilter={setToYearFilter}
+                  handleFindMovies={handleFindMovies}
+                />
+                <FinderList
+                  array={finderMovies}
+                  onSelectMovie={handleSelectMovie}
+                  setIsFinder={setIsFinder}
+                />
+              </Finder>
+            </>
+          )}
+          {isOpenList && (
+            <>
+              <Summary
+                title="Movies you watched:"
+                onClick={() => setIsOpenList(false)}
+              >
                 <div className="bottom-info">
                   <DataItem
                     icon="/icons/hashtag-icon.svg"
@@ -213,7 +273,7 @@ export default function App() {
           )}
           {isSettings && (
             <>
-              <Summary title="Settings" />
+              <Summary title="Settings" onClick={() => setIsSettings(false)} />
               <Settings
                 sortBy={sortBy}
                 onSort={setSortBy}
