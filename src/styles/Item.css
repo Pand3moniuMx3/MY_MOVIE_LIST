@@ -34,6 +34,7 @@
 
 .item .info .bottom-info {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--inner-gap);
 }
 
@@ -79,11 +80,16 @@ input[type="checkbox"]:checked {
 
 /* MEDIA QUERIES */
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 600px) {
   input[type="checkbox"] {
     top: var(--inner-gap);
     right: var(--inner-gap);
     transform: none;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  input[type="checkbox"] {
     width: 20px;
     height: 20px;
   }

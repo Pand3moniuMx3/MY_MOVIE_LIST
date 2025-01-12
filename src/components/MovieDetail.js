@@ -54,6 +54,7 @@ export default function MovieDetail({
       runtime: movieDetails.runtime,
       userRating,
       watched: false,
+      watchedDate: null,
     };
 
     if (isAdded) {

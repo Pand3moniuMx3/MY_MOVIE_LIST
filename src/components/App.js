@@ -76,10 +76,24 @@ export default function App() {
   }
 
   // toggle watched movies
+  function getFormattedDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Add leading zero
+    const day = String(today.getDate()).padStart(2, "0"); // Add leading zero
+    return `${year}-${month}-${day}`;
+  }
+
   function handleToggleWatched(id) {
     setAdded((prev) =>
       prev.map((movie) =>
-        movie.id === id ? { ...movie, watched: !movie.watched } : movie
+        movie.id === id
+          ? {
+              ...movie,
+              watched: !movie.watched,
+              watchedDate: movie.watched ? null : getFormattedDate(),
+            }
+          : movie
       )
     );
   }

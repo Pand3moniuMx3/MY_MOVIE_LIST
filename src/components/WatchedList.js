@@ -48,6 +48,9 @@ export default function WatchedList({
             icon="/icons/clock-icon.svg"
             value={`${movie.runtime} min`}
           />
+          {movie.watched && (
+            <DataItem icon="/icons/clock-icon.svg" value={movie.watchedDate} />
+          )}
           <Checkbox
             checked={movie.watched}
             onChange={() => onToggleWatched(movie.id)}
