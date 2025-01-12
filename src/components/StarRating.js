@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 const containerStyle = {
@@ -28,15 +28,25 @@ export default function StarRating({
   textColor = "white",
   className = "",
   messages = [],
-  defaultRating = 0,
-  onSetRating,
+  movieDetails,
+  onUpdateRating,
 }) {
-  const [rating, setRating] = useState(defaultRating);
+  const [rating, setRating] = useState(movieDetails.userRating);
   const [tempRating, setTempRating] = useState(0);
 
-  function handleRating(rating) {
-    setRating(rating);
-    onSetRating(rating);
+  function handleRating(id, newRating) {
+    setRating(newRating);
+    onUpdateRating((prev) =>
+      prev.map((movie) =>
+        movie.id === id
+          ? {
+              ...movie,
+              userRating: newRating,
+            }
+          : movie
+      )
+    );
+    console.log(newRating);
   }
 
   const textStyle = {
@@ -51,7 +61,7 @@ export default function StarRating({
         {Array.from({ length: maxRating }, (_, i) => (
           <Star
             key={i}
-            onRate={() => handleRating(i + 1)}
+            onRate={() => handleRating(movieDetails.id, i + 1)}
             full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
             onHoverIn={() => setTempRating(i + 1)}
             onHoverOut={() => setTempRating(0)}

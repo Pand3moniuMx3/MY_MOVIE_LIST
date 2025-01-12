@@ -17,7 +17,6 @@ export default function MovieDetail({
   // state
   const [movieDetails, setMovieDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [userRating, setUserRating] = useState("");
 
   // derived state
   const isAdded = added.some((movie) => movie.id === selectedId);
@@ -52,7 +51,7 @@ export default function MovieDetail({
       poster_path: `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`,
       vote_average: movieDetails.vote_average,
       runtime: movieDetails.runtime,
-      userRating,
+      userRating: null,
       watched: false,
       watchedDate: null,
     };
@@ -98,7 +97,7 @@ export default function MovieDetail({
             />
             <MoreDetails
               movieDetails={movieDetails}
-              setUserRating={setUserRating}
+              onUpdateRating={onAddMovie}
               starColor={starColor}
               textColor={textColor}
               maxRating={maxRating}
@@ -169,7 +168,7 @@ function Overview({ movieDetails, onBookmark, isAdded }) {
 
 function MoreDetails({
   movieDetails,
-  setUserRating,
+  onUpdateRating,
   starColor,
   textColor,
   maxRating,
@@ -179,10 +178,11 @@ function MoreDetails({
       <div className="rating">
         <p>Add your rating:</p>
         <StarRating
+          movieDetails={movieDetails}
+          onUpdateRating={onUpdateRating}
           starColor={starColor}
           textColor={textColor}
           maxRating={maxRating}
-          onSetRating={setUserRating}
         />
       </div>
       <div className="detail">
