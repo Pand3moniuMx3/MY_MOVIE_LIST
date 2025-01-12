@@ -36,10 +36,7 @@ export default function WatchedList({
           onClick={() => setIsOpenList(false)}
           customClass={movie.watched ? "checked" : ""}
         >
-          <DataItem
-            icon="/icons/star-icon.svg"
-            value={movie.vote_average.toFixed(1)}
-          />
+          <DataItem icon="/icons/star-icon.svg" value={movie.vote_average} />
           <DataItem
             icon="/icons/star-icon.svg"
             value={movie.userRating === "" ? "N/A" : movie.userRating}
