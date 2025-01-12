@@ -78,6 +78,23 @@ input[type="checkbox"]:checked {
   background-repeat: no-repeat;
 }
 
+/* TRENDING MARKER */
+.trending-marker {
+  position: absolute;
+  top: var(--global-padding);
+  right: var(--global-padding);
+  padding: 3px 8px;
+  background: var(--clr-theme);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+}
+.trending-marker p {
+  font-size: 11px;
+  color: var(--clr-white);
+}
+
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 600px) {

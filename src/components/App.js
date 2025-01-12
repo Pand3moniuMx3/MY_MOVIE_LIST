@@ -13,6 +13,7 @@ import Settings from "./Settings";
 import Finder from "./Finder";
 import FinderFilters from "./FinderFilters";
 import FinderList from "./FinderList";
+import TrendingList from "./TrendingList";
 
 // calculating the average
 const average = (arr) =>
@@ -25,6 +26,7 @@ export default function App() {
   // state
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
+  const [trending, setTrending] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
@@ -149,14 +151,17 @@ export default function App() {
     [query]
   );
 
-  // derived state
-  const avgImdbRating = average(
-    added.map((movie) => movie.vote_average)
-  ).toFixed(1);
-  const avgUserRating = average(added.map((movie) => movie.userRating)).toFixed(
-    1
-  );
-  const totalRuntime = added.reduce((acc, movie) => acc + movie.runtime, 0);
+  // fetching trending movies
+  useEffect(() => {
+    async function getTrendingMovies() {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${KEY}&vote_average.gte=6.5&vote_average.lte=9&vote_count.gte=30&primary_release_date.gte=2024-06-06`
+      );
+      const data = await res.json();
+      setTrending(data.results || []);
+    }
+    getTrendingMovies();
+  }, []);
 
   // finder filters state
   const [genreFilter, setGenreFilter] = useState(28);
@@ -177,6 +182,15 @@ export default function App() {
     console.log(data.result);
   }
 
+  // derived state
+  const avgImdbRating = average(
+    added.map((movie) => movie.vote_average)
+  ).toFixed(1);
+  const avgUserRating = average(added.map((movie) => movie.userRating)).toFixed(
+    1
+  );
+  const totalRuntime = added.reduce((acc, movie) => acc + movie.runtime, 0);
+
   return (
     <section>
       <Navbar
@@ -188,11 +202,27 @@ export default function App() {
       />
       <main>
         <Box>
+          {!selectedId &&
+            !isSettings &&
+            !isOpenList &&
+            !isFinder &&
+            query === "" && (
+              <>
+                <Summary
+                  title={`Found ${trending.length || "0"} trending movies`}
+                />
+                <TrendingList
+                  array={trending}
+                  onSelectMovie={handleSelectMovie}
+                />
+              </>
+            )}
           {isLoading &&
             !isOpenList &&
             !selectedId &&
             !isSettings &&
-            !isFinder && (
+            !isFinder &&
+            query !== "" && (
               <>
                 <Summary title={`Found ${movies.length || "0"} top results`} />
                 <Loader />
@@ -203,7 +233,8 @@ export default function App() {
             !isOpenList &&
             !selectedId &&
             !isSettings &&
-            !isFinder && (
+            !isFinder &&
+            query !== "" && (
               <>
                 <Summary title={`Found ${movies.length || "0"} top results`} />
                 <ErrorMessage message={isError} />
@@ -214,7 +245,8 @@ export default function App() {
             !isOpenList &&
             !selectedId &&
             !isSettings &&
-            !isFinder && (
+            !isFinder &&
+            query !== "" && (
               <>
                 <Summary
                   title={`Found ${movies.length || "0"} top results`}
