@@ -103,6 +103,15 @@ input[type="checkbox"]:checked {
     right: var(--inner-gap);
     transform: none;
   }
+  .trending-marker {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-left: auto;
+  }
+  .item .info .bottom-info {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 400px) {
