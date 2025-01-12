@@ -28,15 +28,19 @@ export default function StarRating({
   textColor = "white",
   className = "",
   messages = [],
-  defaultRating = 0,
   onSetRating,
+  movieDetails,
 }) {
-  const [rating, setRating] = useState(defaultRating);
+  const [rating, setRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
 
-  function handleRating(rating) {
+  function handleRating(id, rating) {
     setRating(rating);
-    onSetRating(rating);
+    onSetRating((prev) =>
+      prev.map((movie) =>
+        movie.id === id ? { ...movie, userRating: rating } : movie
+      )
+    );
   }
 
   const textStyle = {
@@ -51,7 +55,7 @@ export default function StarRating({
         {Array.from({ length: maxRating }, (_, i) => (
           <Star
             key={i}
-            onRate={() => handleRating(i + 1)}
+            onRate={() => handleRating(movieDetails.id, i + 1)}
             full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
             onHoverIn={() => setTempRating(i + 1)}
             onHoverOut={() => setTempRating(0)}

@@ -2,8 +2,9 @@ import React from "react";
 import DataItem from "./DataItem";
 import Item from "./Item";
 import "../styles/List.css";
+import Marker from "./Marker";
 
-export default function MoviesList({ array, onSelectMovie, setIsOpenList }) {
+export default function MoviesList({ array, onSelectMovie }) {
   if (array.length === 0)
     return (
       <ul className="list">
@@ -11,9 +12,11 @@ export default function MoviesList({ array, onSelectMovie, setIsOpenList }) {
       </ul>
     );
 
+  const sortedArray = [...array].sort((a, b) => b.vote_count - a.vote_count);
+
   return (
     <ul className="list">
-      {array.map((movie, index) => (
+      {sortedArray.map((movie, index) => (
         <Item
           id={movie.id}
           title={movie.title}
@@ -25,17 +28,15 @@ export default function MoviesList({ array, onSelectMovie, setIsOpenList }) {
             icon="/icons/star-icon.svg"
             value={movie.vote_average.toFixed(1)}
           />
-          <TrendingMarker />
+          {movie.vote_count >= 2000 &&
+            movie.release_date.split("-").at(0) >= 2024 && (
+              <Marker value="trending" />
+            )}
+          {movie.vote_count >= 2000 && movie.vote_average >= 7.5 && (
+            <Marker value="top rated" />
+          )}
         </Item>
       ))}
     </ul>
-  );
-}
-
-function TrendingMarker() {
-  return (
-    <span className="trending-marker">
-      <p>Trending</p>
-    </span>
   );
 }

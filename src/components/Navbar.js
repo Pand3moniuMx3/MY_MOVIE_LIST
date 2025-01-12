@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/Navbar.css";
 
 export default function Navbar({
@@ -10,10 +10,22 @@ export default function Navbar({
 }) {
   const [isMenu, setIsMenu] = useState(false);
 
+  // focusing search bar on mount
+  const searchBar = useRef(null);
+  useEffect(function () {
+    function callback(e) {
+      if (e.code === "Enter") {
+        searchBar.current.focus();
+      }
+    }
+    document.addEventListener("keydown", callback);
+    return () => document.addEventListener("keydown", callback);
+  }, []);
+
   return (
     <nav className="navbar">
       <div className="filler" />
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <img
           src="icons/search-icon.svg"
           alt="search movies"
@@ -24,6 +36,7 @@ export default function Navbar({
           placeholder="Search movies..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          ref={searchBar}
         />
         {query !== "" && (
           <img

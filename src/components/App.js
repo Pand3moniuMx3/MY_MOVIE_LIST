@@ -14,6 +14,8 @@ import Finder from "./Finder";
 import FinderFilters from "./FinderFilters";
 import FinderList from "./FinderList";
 import TrendingList from "./TrendingList";
+import { useMovies } from "../hooks/useMovies";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 // calculating the average
 const average = (arr) =>
@@ -25,30 +27,18 @@ const KEY = "944b3689ef2257366fec981f89fefb43";
 export default function App() {
   // state
   const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState([]);
   const [trending, setTrending] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [isOpenList, setIsOpenList] = useState(false);
   const [isSettings, setIsSettings] = useState(false);
   const [isFinder, setIsFinder] = useState(false);
-  const [added, setAdded] = useState(() => {
-    const savedAdded = localStorage.getItem("added");
-    return savedAdded ? JSON.parse(savedAdded) : [];
-  });
+  const [added, setAdded] = useLocalStorage([], "added");
 
-  // Save `added` state to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("added", JSON.stringify(added));
-  }, [added]);
-
-  // useEffect(() => {
-  //   localStorage.clear(); // Removes all keys from localStorage
-  // }, []);
+  // fetching data
+  const { movies, isLoading, isError } = useMovies(query);
 
   // sorting logic
-  const [sortBy, setSortBy] = useState("Default");
+  const [sortBy, setSortBy] = useLocalStorage("Default", "sortBy");
   let sortedAdded;
   if (sortBy === "Default") {
     sortedAdded = [...added];
@@ -103,53 +93,6 @@ export default function App() {
       )
     );
   }
-
-  // fetching data
-  useEffect(
-    function () {
-      const controller = new AbortController();
-
-      async function fetchMovies() {
-        try {
-          setIsLoading(true);
-          setIsError("");
-
-          const res = await fetch(
-            `https://api.themoviedb.org/3/search/movie?api_key=${KEY}&query=${query}`,
-            { signal: controller.signal }
-          );
-
-          if (!res.ok) throw new Error("Something went wrong");
-
-          const data = await res.json();
-          if (data.Response === "False") throw new Error("No movies found");
-
-          setMovies(data.results);
-          setIsError("");
-          console.log(data.results);
-        } catch (err) {
-          if (err.name !== "AbortError") {
-            setIsError(err.message);
-          }
-        } finally {
-          setIsLoading(false);
-        }
-      }
-
-      if (!query.length) {
-        setMovies([]);
-        setIsError("Search for movies");
-        return;
-      }
-
-      fetchMovies();
-
-      return function () {
-        controller.abort();
-      };
-    },
-    [query]
-  );
 
   // fetching trending movies
   useEffect(() => {
@@ -208,9 +151,7 @@ export default function App() {
             !isFinder &&
             query === "" && (
               <>
-                <Summary
-                  title={`Found ${trending.length || "0"} trending movies`}
-                />
+                <Summary title={`Latest top movies`} />
                 <TrendingList
                   array={trending}
                   onSelectMovie={handleSelectMovie}

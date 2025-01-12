@@ -17,7 +17,7 @@ export default function MovieDetail({
   // state
   const [movieDetails, setMovieDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [userRating, setUserRating] = useState("");
+  // const [userRating, setUserRating] = useState("");
 
   // derived state
   const isAdded = added.some((movie) => movie.id === selectedId);
@@ -52,7 +52,7 @@ export default function MovieDetail({
       poster_path: `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`,
       vote_average: movieDetails.vote_average,
       runtime: movieDetails.runtime,
-      userRating,
+      userRating: 0,
       watched: false,
       watchedDate: null,
     };
@@ -98,10 +98,10 @@ export default function MovieDetail({
             />
             <MoreDetails
               movieDetails={movieDetails}
-              setUserRating={setUserRating}
               starColor={starColor}
               textColor={textColor}
               maxRating={maxRating}
+              onSetRating={onAddMovie}
             />
           </>
         )
@@ -160,7 +160,9 @@ function Overview({ movieDetails, onBookmark, isAdded }) {
         </div>
         <div className="rating-wrapper">
           <img src="/icons/star-icon.svg" alt="imdb rating" />
-          <p>{movieDetails.vote_average} IMDb rating</p>
+          <p>{`${movieDetails.vote_average.toFixed(1)} (${
+            movieDetails.vote_count
+          } reviews)`}</p>
         </div>
       </div>
     </div>
@@ -169,20 +171,21 @@ function Overview({ movieDetails, onBookmark, isAdded }) {
 
 function MoreDetails({
   movieDetails,
-  setUserRating,
   starColor,
   textColor,
   maxRating,
+  onSetRating,
 }) {
   return (
     <div className="more-details">
       <div className="rating">
         <p>Add your rating:</p>
         <StarRating
-          onsetRating={setUserRating}
           starColor={starColor}
           textColor={textColor}
           maxRating={maxRating}
+          onSetRating={onSetRating}
+          movieDetails={movieDetails}
         />
       </div>
       <div className="detail">
@@ -190,8 +193,8 @@ function MoreDetails({
         <p>"{movieDetails.overview}"</p>
       </div>
       <div className="detail">
-        <b>Revenue:</b>
-        <p>${movieDetails.revenue}</p>
+        <b>Popularity:</b>
+        <p>{movieDetails.popularity}</p>
       </div>
       <div className="detail">
         <b>Tagline:</b>
