@@ -50,13 +50,17 @@ export default function App() {
   let sortedAdded;
   if (sortBy === "Default") {
     sortedAdded = [...added];
-  } else if (sortBy === "Alpabet") {
+  } else if (sortBy === "Alphabet") {
     sortedAdded = [...added].sort((a, b) => a.title.localeCompare(b.title));
   } else if (sortBy === "Latest") {
     sortedAdded = [...added].reverse();
   } else if (sortBy === "Completion") {
     sortedAdded = [...added].sort(
       (a, b) => Number(a.watched) - Number(b.watched)
+    );
+  } else if (sortBy === "WatchedDate") {
+    sortedAdded = [...added].sort(
+      (a, b) => new Date(a.watchedDate) - new Date(b.watchedDate)
     );
   }
 

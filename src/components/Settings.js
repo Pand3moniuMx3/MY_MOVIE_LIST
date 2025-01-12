@@ -26,7 +26,7 @@ export default function Settings({
   const sortingOptions = [
     {
       id: 1,
-      title: "Sort by Input",
+      title: "Sort by input order",
       value: "Default",
     },
     {
@@ -36,13 +36,18 @@ export default function Settings({
     },
     {
       id: 3,
-      title: "Sort Latest to Newest",
+      title: "Sort latest to newest",
       value: "Latest",
     },
     {
       id: 4,
-      title: "Sort by Completion",
+      title: "Sort by completion",
       value: "Completion",
+    },
+    {
+      id: 5,
+      title: "Sort by watched date",
+      value: "WatchedDate",
     },
   ];
 
