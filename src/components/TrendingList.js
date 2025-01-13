@@ -16,27 +16,30 @@ export default function MoviesList({ array, onSelectMovie }) {
 
   return (
     <ul className="list">
-      {sortedArray.map((movie, index) => (
-        <Item
-          id={movie.id}
-          title={movie.title}
-          poster={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          key={index}
-          onSelectMovie={onSelectMovie}
-        >
-          <DataItem
-            icon="/icons/star-icon.svg"
-            value={movie.vote_average.toFixed(1)}
-          />
-          {movie.vote_count >= 2000 &&
-            movie.release_date.split("-").at(0) >= 2024 && (
-              <Marker value="trending" />
-            )}
-          {movie.vote_count >= 2000 && movie.vote_average >= 7.5 && (
-            <Marker value="top rated" />
-          )}
-        </Item>
-      ))}
+      {sortedArray.map((movie, index) => {
+        // marker logic
+        const isTrending =
+          movie.vote_count >= 2000 &&
+          movie.release_date.split("-").at(0) >= 2024;
+        const isTopRated =
+          movie.vote_count >= 2000 && movie.vote_average >= 7.5;
+        return (
+          <Item
+            id={movie.id}
+            title={movie.title}
+            poster={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            key={index}
+            onSelectMovie={onSelectMovie}
+          >
+            <DataItem
+              icon="/icons/star-icon.svg"
+              value={movie.vote_average.toFixed(1)}
+            />
+            {!isTopRated && isTrending && <Marker value="trending" />}
+            {isTopRated && <Marker value="top rated" />}
+          </Item>
+        );
+      })}
     </ul>
   );
 }
